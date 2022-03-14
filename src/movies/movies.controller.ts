@@ -8,13 +8,17 @@ import {
   Body,
   Query,
 } from '@nestjs/common';
+import { MoviesService } from './movies.service';
+import { Movie } from './entities/movie.entity';
 
 @Controller('movies')
 export class MoviesController {
+  constructor(private readonly moviesService: MoviesService) {}
+
   // 전체 영화정보 가져오기
   @Get()
-  getAll() {
-    return 'all movies';
+  getAll(): Movie[] {
+    return this.moviesService.getAll();
   }
 
   // 타이틀 검색
@@ -25,21 +29,20 @@ export class MoviesController {
 
   // 특정 영화정보 가져오기
   @Get(':id')
-  getOne(@Param('id') movieId: string) {
-    return `one movie of id: ${movieId}`;
+  getOne(@Param('id') movieId: string): Movie {
+    return this.moviesService.getOne(movieId);
   }
 
   // 새 영화정보 생성
   @Post()
   create(@Body() movieData) {
-    console.log(movieData);
-    return 'create a movie';
+    return this.moviesService.create(movieData);
   }
 
   // 기존 영화 삭제
   @Delete(':id')
   delete(@Param('id') movieId: string) {
-    return `delete a movie of id: ${movieId}`;
+    return this.moviesService.deleteOne(movieId);
   }
 
   // 특정 영화정보 업데이트
