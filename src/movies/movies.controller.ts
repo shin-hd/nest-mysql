@@ -19,7 +19,7 @@ export class MoviesController {
 
   // 전체 영화정보 가져오기
   @Get()
-  getAll(): Movie[] {
+  getAll(): Promise<Movie[]> {
     return this.moviesService.getAll();
   }
 
@@ -31,7 +31,7 @@ export class MoviesController {
 
   // 특정 영화정보 가져오기
   @Get(':id')
-  getOne(@Param('id') movieId: number): Movie {
+  getOne(@Param('id') movieId: number): Promise<Movie> {
     return this.moviesService.getOne(movieId);
   }
 
